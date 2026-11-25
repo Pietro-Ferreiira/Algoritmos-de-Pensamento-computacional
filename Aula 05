@@ -1,1 +1,562 @@
 
+/*
+ * Aula 02 - Estruturas de Repeticao
+ * Pratica 1: Ler numeros digitados pelo usuario e exibir cada um na tela,
+ * enquanto o valor digitado for diferente de 0. Ao digitar 0, exibir
+ * "Programa encerrado."
+ */
+#include <stdio.h>
+
+int main() {
+    int numero;
+
+    printf("Digite um numero (0 para sair): ");
+    scanf("%d", &numero);
+
+    while (numero != 0) {
+        printf("Voce digitou: %d\n", numero);
+        printf("Digite outro numero (0 para sair): ");
+        scanf("%d", &numero);
+    }
+
+    printf("Programa encerrado.\n");
+    return 0;
+}
+* Pratica 2: "Qual o objetivo desse algoritmo? Construa uma solucao mais elegante."
+ *
+ * Objetivo do algoritmo anterior: ler numeros e exibi-los ate que o usuario
+ * digite 0 (valor sentinela).
+ *
+ * Problema da versao anterior: o printf/scanf de leitura aparece DUAS vezes
+ * (antes do while e dentro dele). Com do...while, a leitura fica em um unico
+ * lugar, pois o corpo executa pelo menos uma vez.
+ */
+#include <stdio.h>
+
+int main() {
+    int numero;
+
+    do {
+        printf("Digite um numero (0 para sair): ");
+        scanf("%d", &numero);
+
+        if (numero != 0) {
+            printf("Voce digitou: %d\n", numero);
+        }
+    } while (numero != 0);
+
+    printf("Programa encerrado.\n");
+    return 0;
+}
+* Pratica 3: Simulacao de login com do...while.
+ * Login correto -> usuario: admin | senha: 1234
+ * Pede as credenciais enquanto estiverem incorretas (pelo menos uma vez).
+ */
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char usuario[20];
+    char senha[20];
+    int credenciaisCorretas;
+
+    do {
+        printf("Digite o usuario: ");
+        scanf("%19s", usuario);
+        printf("Digite a senha: ");
+        scanf("%19s", senha);
+
+        credenciaisCorretas = (strcmp(usuario, "admin") == 0 && strcmp(senha, "1234") == 0);
+
+        if (!credenciaisCorretas) {
+            printf("Usuario ou senha incorretos. Tente novamente.\n\n");
+        }
+    } while (!credenciaisCorretas);
+
+    printf("\nLogin realizado com sucesso! Bem-vindo ao sistema.\n");
+    return 0;
+}
+* Pratica 4: Imprimir de 1 ate 20 (usando for).
+ */
+#include <stdio.h>
+
+int main() {
+    int i;
+
+    for (i = 1; i <= 20; i++) {
+        printf("%d\n", i);
+    }
+
+    return 0;
+}
+ * Pratica 5: Analise de rede social.
+ * Le o numero de curtidas de 5 publicacoes (usando for), soma os valores e
+ * exibe a media final.
+ */
+#include <stdio.h>
+
+int main() {
+    int curtidas;
+    int soma = 0;
+    float media;
+    int i;
+
+    for (i = 1; i <= 5; i++) {
+        printf("Digite o numero de curtidas do post %d: ", i);
+        scanf("%d", &curtidas);
+        soma += curtidas;
+    }
+
+    media = soma / 5.0;
+
+    printf("\nMedia de curtidas dos 5 posts: %.2f\n", media);
+    return 0;
+}
+* Questao 1 (Vamos Praticar): Condominio - consumo de agua.
+ * Le o consumo mensal (m3) de 5 moradores. Para cada um informa se esta
+ * dentro da media (ate 20 m3) ou acima. Ao final, mostra o consumo medio geral.
+ */
+#include <stdio.h>
+
+#define MORADORES 5
+#define LIMITE 20.0f
+
+int main() {
+    float consumo;
+    float soma = 0;
+    int i;
+
+    for (i = 1; i <= MORADORES; i++) {
+        printf("Consumo do morador %d (m3): ", i);
+        scanf("%f", &consumo);
+
+        if (consumo <= LIMITE) {
+            printf("  Morador %d: dentro da media (ate %.0f m3).\n", i, LIMITE);
+        } else {
+            printf("  Morador %d: ACIMA da media (mais de %.0f m3).\n", i, LIMITE);
+        }
+
+        soma += consumo;
+    }
+
+    printf("\nConsumo medio geral: %.2f m3\n", soma / MORADORES);
+    return 0;
+}
+* Questao 2 (Vamos Praticar): Cofrinho digital.
+ * O usuario adiciona moedas de R$0,50, R$1,00 ou R$2,00 quantas vezes quiser.
+ * Ao decidir parar, o programa mostra o total acumulado.
+ *
+ * O total eh guardado em CENTAVOS (int) para evitar erros de arredondamento
+ * de numeros float.
+ */
+#include <stdio.h>
+
+int main() {
+    int opcao;
+    int totalCentavos = 0;
+
+    do {
+        printf("\n--- Cofrinho Digital ---\n");
+        printf("1 - Adicionar moeda de R$ 0,50\n");
+        printf("2 - Adicionar moeda de R$ 1,00\n");
+        printf("3 - Adicionar moeda de R$ 2,00\n");
+        printf("0 - Parar e ver o total\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1: totalCentavos += 50;  break;
+            case 2: totalCentavos += 100; break;
+            case 3: totalCentavos += 200; break;
+            case 0: break;
+            default: printf("Opcao invalida!\n");
+        }
+
+        if (opcao >= 1 && opcao <= 3) {
+            printf("Saldo atual: R$ %d,%02d\n", totalCentavos / 100, totalCentavos % 100);
+        }
+    } while (opcao != 0);
+
+    printf("\nTotal acumulado no cofrinho: R$ %d,%02d\n", totalCentavos / 100, totalCentavos % 100);
+    return 0;
+}
+* Questao 3 (Vamos Praticar): Nota media do atendimento.
+ * Le a nota (0 a 10) de 10 clientes e calcula a media geral.
+ * Se a media for menor que 7, exibe uma mensagem de alerta.
+ */
+#include <stdio.h>
+
+#define CLIENTES 10
+
+int main() {
+    float nota;
+    float soma = 0;
+    float media;
+    int i;
+
+    for (i = 1; i <= CLIENTES; i++) {
+        do {
+            printf("Nota do cliente %d (0 a 10): ", i);
+            scanf("%f", &nota);
+            if (nota < 0 || nota > 10) {
+                printf("  Nota invalida! Digite um valor entre 0 e 10.\n");
+            }
+        } while (nota < 0 || nota > 10);
+
+        soma += nota;
+    }
+
+    media = soma / CLIENTES;
+    printf("\nMedia geral do atendimento: %.2f\n", media);
+
+    if (media < 7) {
+        printf("ALERTA: a media esta abaixo de 7! O atendimento precisa melhorar.\n");
+    }
+
+    return 0;
+}
+* Questao 4 (Vamos Praticar): Meta diaria de passos.
+ * Le a quantidade de passos dados a cada hora. Para quando o total atingir ou
+ * ultrapassar 10.000 passos e informa quantas horas foram necessarias.
+ */
+#include <stdio.h>
+
+#define META 10000
+
+int main() {
+    int passos;
+    int total = 0;
+    int horas = 0;
+
+    while (total < META) {
+        horas++;
+        do {
+            printf("Passos dados na hora %d: ", horas);
+            scanf("%d", &passos);
+            if (passos < 0) {
+                printf("  Valor invalido! Digite um numero maior ou igual a 0.\n");
+            }
+        } while (passos < 0);
+
+        total += passos;
+        printf("  Total acumulado: %d passos\n", total);
+    }
+
+    printf("\nMeta de %d passos atingida em %d hora(s)! Total: %d passos.\n", META, horas, total);
+    return 0;
+}
+* Lista - Questao 1: Ler 10 inteiros. Para cada um, informar se eh par ou
+ * impar. Ao final, apresentar a quantidade de pares e de impares.
+ */
+#include <stdio.h>
+
+int main() {
+    int numero;
+    int pares = 0, impares = 0;
+    int i;
+
+    for (i = 1; i <= 10; i++) {
+        printf("Digite o numero %d: ", i);
+        scanf("%d", &numero);
+
+        if (numero % 2 == 0) {
+            printf("  %d eh par.\n", numero);
+            pares++;
+        } else {
+            printf("  %d eh impar.\n", numero);
+            impares++;
+        }
+    }
+
+    printf("\nQuantidade de numeros pares: %d\n", pares);
+    printf("Quantidade de numeros impares: %d\n", impares);
+    return 0;
+}
+* Lista - Questao 2: Ler as notas de varios alunos (enquanto o usuario
+ * desejar). Para cada aluno, ler 3 notas, calcular a media e informar:
+ *   Aprovado     : media >= 7
+ *   Recuperacao  : 5 <= media < 7
+ *   Reprovado    : media < 5
+ * Ao final, informar quantos foram aprovados, em recuperacao e reprovados.
+ */
+#include <stdio.h>
+
+int main() {
+    float nota, soma, media;
+    int aprovados = 0, recuperacao = 0, reprovados = 0;
+    int aluno = 0;
+    int i;
+    char continuar;
+
+    do {
+        aluno++;
+        soma = 0;
+        printf("\n--- Aluno %d ---\n", aluno);
+
+        for (i = 1; i <= 3; i++) {
+            printf("Digite a nota %d: ", i);
+            scanf("%f", &nota);
+            soma += nota;
+        }
+
+        media = soma / 3;
+        printf("Media: %.2f -> ", media);
+
+        if (media >= 7) {
+            printf("Aprovado\n");
+            aprovados++;
+        } else if (media >= 5) {
+            printf("Recuperacao\n");
+            recuperacao++;
+        } else {
+            printf("Reprovado\n");
+            reprovados++;
+        }
+
+        printf("Deseja cadastrar outro aluno? (S/N): ");
+        scanf(" %c", &continuar);
+    } while (continuar == 'S' || continuar == 's');
+
+    printf("\n===== RESUMO =====\n");
+    printf("Aprovados: %d\n", aprovados);
+    printf("Recuperacao: %d\n", recuperacao);
+    printf("Reprovados: %d\n", reprovados);
+    return 0;
+}
+* Lista - Questao 3: Ler 10 inteiros e determinar o maior, o menor e a
+ * diferenca entre eles.
+ * Restricao: NAO usar vetores ou matrizes.
+ */
+#include <stdio.h>
+
+int main() {
+    int numero, maior, menor;
+    int i;
+
+    printf("Digite o numero 1: ");
+    scanf("%d", &numero);
+    maior = numero;   /* o primeiro valor inicia maior e menor */
+    menor = numero;
+
+    for (i = 2; i <= 10; i++) {
+        printf("Digite o numero %d: ", i);
+        scanf("%d", &numero);
+
+        if (numero > maior) {
+            maior = numero;
+        }
+        if (numero < menor) {
+            menor = numero;
+        }
+    }
+
+    printf("\nMaior numero: %d\n", maior);
+    printf("Menor numero: %d\n", menor);
+    printf("Diferenca entre o maior e o menor: %d\n", maior - menor);
+    return 0;
+}
+* Lista - Questao 4: Ler inteiros continuamente ate o usuario digitar 0.
+ * Ao final apresentar: soma dos positivos, soma dos negativos, quantidade de
+ * positivos e quantidade de negativos. O zero nao eh positivo nem negativo.
+ */
+#include <stdio.h>
+
+int main() {
+    int numero;
+    long long somaPositivos = 0, somaNegativos = 0;
+    int qtdPositivos = 0, qtdNegativos = 0;
+
+    do {
+        printf("Digite um numero inteiro (0 para encerrar): ");
+        scanf("%d", &numero);
+
+        if (numero > 0) {
+            somaPositivos += numero;
+            qtdPositivos++;
+        } else if (numero < 0) {
+            somaNegativos += numero;
+            qtdNegativos++;
+        }
+    } while (numero != 0);
+
+    printf("\nSoma dos positivos: %lld\n", somaPositivos);
+    printf("Soma dos negativos: %lld\n", somaNegativos);
+    printf("Quantidade de positivos: %d\n", qtdPositivos);
+    printf("Quantidade de negativos: %d\n", qtdNegativos);
+    return 0;
+}
+* Lista - Questao 5: Tabuada de 1 a 10 de um numero. Depois pergunta se o
+ * usuario deseja outra tabuada; continua enquanto a resposta for "S" ou "s".
+ */
+#include <stdio.h>
+
+int main() {
+    int numero, i;
+    char resposta;
+
+    do {
+        printf("Digite um numero inteiro: ");
+        scanf("%d", &numero);
+
+        printf("\nTabuada do %d:\n", numero);
+        for (i = 1; i <= 10; i++) {
+            printf("%d x %2d = %d\n", numero, i, numero * i);
+        }
+
+        printf("\nDeseja calcular a tabuada de outro numero? (S/N): ");
+        scanf(" %c", &resposta);
+        printf("\n");
+    } while (resposta == 'S' || resposta == 's');
+
+    printf("Programa encerrado.\n");
+    return 0;
+}
+* Lista - Questao 6 (parte 1): Ler um inteiro positivo e determinar se eh
+ * primo, verificando todos os possiveis divisores.
+ * Um numero eh primo se for maior que 1 e tiver apenas dois divisores: 1 e ele mesmo.
+ */
+#include <stdio.h>
+
+int main() {
+    int numero, i;
+    int primo = 1;
+
+    do {
+        printf("Digite um numero inteiro positivo: ");
+        scanf("%d", &numero);
+        if (numero <= 0) {
+            printf("  Valor invalido!\n");
+        }
+    } while (numero <= 0);
+
+    if (numero == 1) {
+        primo = 0;  /* 1 nao eh primo */
+    }
+
+    /* testa todos os divisores possiveis entre 2 e numero-1 */
+    for (i = 2; i < numero; i++) {
+        if (numero % i == 0) {
+            primo = 0;
+            break;   /* ja achou um divisor: nao precisa continuar */
+        }
+    }
+
+    if (primo) {
+        printf("%d eh primo.\n", numero);
+    } else {
+        printf("%d NAO eh primo.\n", numero);
+    }
+
+    return 0;
+}
+* Lista - Questao 6 (parte 2): Modificacao do programa anterior para testar
+ * varios numeros, encerrando quando o usuario escolher nao continuar.
+ */
+#include <stdio.h>
+
+int main() {
+    int numero, i;
+    int primo;
+    char continuar;
+
+    do {
+        do {
+            printf("Digite um numero inteiro positivo: ");
+            scanf("%d", &numero);
+            if (numero <= 0) {
+                printf("  Valor invalido!\n");
+            }
+        } while (numero <= 0);
+
+        primo = (numero > 1);   /* 1 nao eh primo */
+
+        for (i = 2; i < numero; i++) {
+            if (numero % i == 0) {
+                primo = 0;
+                break;
+            }
+        }
+
+        if (primo) {
+            printf("%d eh primo.\n", numero);
+        } else {
+            printf("%d NAO eh primo.\n", numero);
+        }
+
+        printf("Deseja testar outro numero? (S/N): ");
+        scanf(" %c", &continuar);
+        printf("\n");
+    } while (continuar == 'S' || continuar == 's');
+
+    printf("Programa encerrado.\n");
+    return 0;
+}
+* Lista - Questao 7: Ler um inteiro entre 0 e 10 (repetindo a leitura ate o
+ * valor ser valido) e apresentar o fatorial.
+ * Exemplo: Entrada: 5  ->  Saida: 5! = 120
+ */
+#include <stdio.h>
+
+int main() {
+    int numero, i;
+    int fatorial = 1;
+
+    do {
+        printf("Digite um numero inteiro entre 0 e 10: ");
+        scanf("%d", &numero);
+        if (numero < 0 || numero > 10) {
+            printf("  Valor fora do intervalo! Tente novamente.\n");
+        }
+    } while (numero < 0 || numero > 10);
+
+    for (i = 2; i <= numero; i++) {   /* 0! = 1! = 1 */
+        fatorial *= i;
+    }
+
+    printf("%d! = %d\n", numero, fatorial);
+    return 0;
+}
+* Lista - Questao 8: Jogo do numero secreto (1 a 100).
+ * A cada palpite informa se o numero secreto eh maior, menor ou se acertou.
+ * Limite de 10 tentativas; ao final informa o numero de tentativas e, se nao
+ * acertou, revela o numero secreto.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_TENTATIVAS 10
+
+int main() {
+    int secreto, palpite;
+    int tentativas = 0;
+    int acertou = 0;
+
+    srand((unsigned) time(NULL));
+    secreto = rand() % 100 + 1;   /* numero entre 1 e 100 */
+
+    printf("=== JOGO DO NUMERO SECRETO ===\n");
+    printf("Adivinhe o numero entre 1 e 100. Voce tem %d tentativas.\n\n", MAX_TENTATIVAS);
+
+    while (tentativas < MAX_TENTATIVAS && !acertou) {
+        printf("Tentativa %d de %d - Seu palpite: ", tentativas + 1, MAX_TENTATIVAS);
+        scanf("%d", &palpite);
+        tentativas++;
+
+        if (palpite < secreto) {
+            printf("O numero secreto eh maior\n");
+        } else if (palpite > secreto) {
+            printf("O numero secreto eh menor\n");
+        } else {
+            printf("Parabens! Voce acertou!\n");
+            acertou = 1;
+        }
+    }
+
+    printf("\nTentativas realizadas: %d\n", tentativas);
+    if (!acertou) {
+        printf("Que pena! Suas tentativas acabaram. O numero secreto era %d.\n", secreto);
+    }
+
+    return 0;
+}
