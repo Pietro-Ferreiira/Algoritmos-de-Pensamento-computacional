@@ -1,1 +1,26 @@
+/*
+ * Aula 06 - Vetores e Matrizes
+ * Exercicio de aula: Armazenar as notas (medias) de sete alunos em um vetor,
+ * usando estrutura de repeticao para ler e para exibir.
+ */
+#include <stdio.h>
+
+#define QTD 7
+
+int main() {
+    float medias[QTD];
+    int i;
+
+    for (i = 0; i < QTD; i++) {
+        printf("Digite a media do aluno %d: ", i + 1);
+        scanf("%f", &medias[i]);
+    }
+
+    printf("\nMedias armazenadas:\n");
+    for (i = 0; i < QTD; i++) {
+        printf("Aluno %d: %.2f\n", i + 1, medias[i]);
+    }
+
+    return 0;
+}
 
