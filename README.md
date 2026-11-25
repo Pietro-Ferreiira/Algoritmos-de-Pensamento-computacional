@@ -1,1 +1,0 @@
-# atividade-aula-04-algoritmos-de-pensamento-computacionais-
